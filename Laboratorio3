@@ -1,0 +1,80 @@
+#include <pthread.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string>
+#include <vector>
+#include <iostream>
+#include <fstream> 
+#include <sstream>
+#include <unistd.h>
+#include "md5.h"
+
+
+
+using namespace std;
+//LFU = Last Frequently Used
+void lecturaDiccionario(){
+	
+}
+
+int main (int argc, char **argv){
+
+	string rVal = ""; //  Database 
+	int rflag=0;
+	string cVal = ""; //  Tamaño Caché
+	int cflag=0;
+	string dVal = ""; //  Diccionario
+	int dflag=0;
+	string hVal = ""; //  Número Hebras
+	int hflag=0;
+	string aux = "";
+	int c;
+	opterr =0;
+	while((c = getopt(argc,argv,"r:c:d:h:")) != -1)
+		switch(c){
+			case 'r':
+					rflag = 1;
+					rVal= optarg;
+					break;
+			case 'c':
+					cflag = 1;
+					cVal = optarg;
+					break;
+			case 'd':
+					dflag = 1;
+					dVal = optarg;
+					break;
+			case 'h':
+					hflag = 1;
+					hVal = optarg;
+					break;
+			case '?':
+				if (optopt=='r'||optopt == 'c'||optopt == 'd'||optopt == 'h'){
+					fprintf (stderr, "Opcion -%c requiere un argumento.\n", optopt);
+					if (isprint (optopt))
+						fprintf (stderr, "Opcion incorrecta `-%c'.\n", optopt);
+		        }
+				return 1;  
+			default:
+				abort();
+		}
+		if(hflag==1){
+			if (atoi(hVal.c_str()) <= 0) {
+	    		fprintf(stderr,"El número de hebras debe ser > 0\n");
+	    		exit (-1);
+	    	}
+  		} 
+  		if(cflag==1){
+	  		if (atoi(cVal.c_str()) <= 0) {
+	    		fprintf(stderr,"El tamaño de la caché debe ser > 0\n");
+	    		exit (-1);
+	  		}
+	  	}
+  		if(dflag==1){
+  			printf("1. %s\n",dVal.c_str());
+  			aux=md5(dVal);
+  			printf("2. %s\n",aux.c_str());
+  		}
+
+}
+
